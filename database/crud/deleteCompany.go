@@ -4,20 +4,20 @@ import (
 	models "../models"
 	"fmt"
 	"github.com/jinzhu/gorm"
-	"log"
 	"os"
 )
 
 //DeleteCompany takes the arguments to delete and soft deletes it from the database.
-func DeleteCompany(id string) {
+//Returns an error.
+func DeleteCompany(id string) error {
 	s := fmt.Sprintf("dbname=%s user=%s password=%s port=5432", "priorincidents", os.Getenv("DATABASE_USER"), os.Getenv("DATABASE_PASSWORD"))
 	db, err := gorm.Open("postgres", s)
 
 	if err != nil {
-		log.Fatal(err)
-		panic("failed to connect to database")
+		return err
 	}
 	defer db.Close()
 
 	db.Where("id = ?", id).Delete(&models.Company{})
+	return nil
 }
