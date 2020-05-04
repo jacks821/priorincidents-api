@@ -1,0 +1,1 @@
+This is the JSON API for the PriorIncidents web page.
