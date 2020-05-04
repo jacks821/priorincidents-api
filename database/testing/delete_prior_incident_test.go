@@ -10,7 +10,7 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 
-	crud "github.com/jacks821/priorincidents-api/crud"
+	crud "github.com/jacks821/priorincidents-api/database/crud"
 )
 
 func TestDeletePriorIncident(t *testing.T) {

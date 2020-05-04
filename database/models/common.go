@@ -18,9 +18,6 @@ type CommonModelFields struct {
 
 //BeforeCreate runs before the entry of any entry to the database, this function will be run, giving a UUID to the model.
 func (base *CommonModelFields) BeforeCreate(scope *gorm.Scope) error {
-	uuid, err := uuid.NewV4()
-	if err != nil {
-		return err
-	}
+	uuid := uuid.NewV4()
 	return scope.SetColumn("ID", uuid)
 }

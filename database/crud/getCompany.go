@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	models "github.com/jacks821/priorincidents-api/models"
+	models "github.com/jacks821/priorincidents-api/database/models"
 	"github.com/jinzhu/gorm"
 )
 
