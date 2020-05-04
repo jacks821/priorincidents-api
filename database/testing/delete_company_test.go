@@ -23,7 +23,11 @@ func TestDeleteCompany(t *testing.T) {
 	defer db.Close()
 
 	name := "Meijer"
-	company := crud.CreateCompany(name)
+	company, err := crud.CreateCompany(name)
 
-	crud.DeleteCompany(company.ID.String())
+	err = crud.DeleteCompany(company.ID.String())
+
+	if err != nil {
+		t.Error("Expected nil ", "got ", err)
+	}
 }

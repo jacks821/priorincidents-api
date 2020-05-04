@@ -23,13 +23,15 @@ func TestGetCompany(t *testing.T) {
 	defer db.Close()
 
 	name := "Meijer"
-	company := crud.CreateCompany(name)
+	company, _ := crud.CreateCompany(name)
 
-	result := crud.GetCompany(company.ID.String())
+	result, err := crud.GetCompany(company.ID.String())
 
 	if company.Name != result.Name {
 		t.Error("expected", company.Name, "got", result.Name)
 	}
-
+	if err != nil {
+		t.Error("Expected nil ", "got ", err)
+	}
 	db.Delete(&company)
 }

@@ -23,8 +23,10 @@ func TestDeleteLocation(t *testing.T) {
 	defer db.Close()
 
 	name := "Meijer"
-	company := crud.CreateCompany(name)
-
+	company, err := crud.CreateCompany(name)
+	if err != nil {
+		t.Error("Expected nil ", "got ", err)
+	}
 	streetNumber := "4123"
 	street := "Gibson Rd."
 	city := "Henderson"
@@ -32,8 +34,14 @@ func TestDeleteLocation(t *testing.T) {
 	zipCode := "89012"
 	storeNumber := "1234"
 
-	location := crud.CreateLocation(streetNumber, street, city, state, zipCode, storeNumber, company.CommonModelFields.ID.String())
+	location, _ := crud.CreateLocation(streetNumber, street, city, state, zipCode, storeNumber, company.CommonModelFields.ID.String())
 
-	crud.DeleteLocation(location.ID.String())
-	crud.DeleteCompany(company.ID.String())
+	err = crud.DeleteLocation(location.ID.String())
+	if err != nil {
+		t.Error("Expected nil ", "got ", err)
+	}
+	err = crud.DeleteCompany(company.ID.String())
+	if err != nil {
+		t.Error("Expected nil ", "got ", err)
+	}
 }

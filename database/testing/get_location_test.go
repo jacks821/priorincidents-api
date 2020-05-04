@@ -29,11 +29,14 @@ func TestGetLocation(t *testing.T) {
 	zipCode := "89012"
 	storeNumber := "1234"
 
-	company := crud.CreateCompany("Meijer")
+	company, _ := crud.CreateCompany("Meijer")
 
-	location := crud.CreateLocation(streetNumber, street, city, state, zipCode, storeNumber, company.CommonModelFields.ID.String())
+	location, _ := crud.CreateLocation(streetNumber, street, city, state, zipCode, storeNumber, company.CommonModelFields.ID.String())
 
-	result := crud.GetLocation(location.ID.String())
+	result, err := crud.GetLocation(location.ID.String())
+	if err != nil {
+		t.Error("Expected nil ", "got ", err)
+	}
 
 	if location.StreetNumber != result.StreetNumber {
 		t.Error("expected", location.StreetNumber, "got", result.StreetNumber)

@@ -36,14 +36,13 @@ func TestCreatePriorIncident(t *testing.T) {
 
 	db.Where("name = ?", "Meijer").First(&company)
 
-	location := crud.CreateLocation(streetNumber, street, city, state, zipCode, storeNumber, company.CommonModelFields.ID.String())
-
+	location, _ := crud.CreateLocation(streetNumber, street, city, state, zipCode, storeNumber, company.CommonModelFields.ID.String())
 	date := time.Now()
 	createdDate := date.Format("2006-01-02")
 	fallType := "Slip"
 	attorneyName := "Charlie Jackson"
 
-	priorIncident := crud.CreatePriorIncident(createdDate, fallType, attorneyName, location.CommonModelFields.ID.String())
+	priorIncident, err := crud.CreatePriorIncident(createdDate, fallType, attorneyName, location.CommonModelFields.ID.String())
 
 	if priorIncident.FallType != fallType {
 		t.Error("expected", fallType, "got", priorIncident.FallType)
@@ -55,6 +54,9 @@ func TestCreatePriorIncident(t *testing.T) {
 
 	if priorIncident.LocationID != location.CommonModelFields.ID {
 		t.Error("expected", location.ID, "got", priorIncident.LocationID)
+	}
+	if err != nil {
+		t.Error("Expected nil ", "got ", err)
 	}
 
 	db.Delete(&company)
