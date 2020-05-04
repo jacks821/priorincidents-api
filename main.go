@@ -1,0 +1,188 @@
+package main
+
+import (
+	"encoding/json"
+	"fmt"
+	"log"
+	"net/http"
+	"os"
+
+	crud "./database/crud"
+	migrations "./migrations"
+	"github.com/gorilla/mux"
+	_ "github.com/jinzhu/gorm/dialects/postgres"
+)
+
+func main() {
+	migrations.RunMigrations()
+	port := os.Getenv("API_PORT")
+
+	if port == "" {
+		log.Fatal("$API_PORT must be set")
+	}
+	router := mux.NewRouter().StrictSlash(true)
+
+	router.Use(cors)
+
+	router.HandleFunc("/companies", listCompanies).Methods("GET")
+	router.HandleFunc("/company", createCompany).Methods("POST")
+	router.HandleFunc("/report", createReport).Methods("POST")
+	router.HandleFunc("/companies/{id}", getCompany).Methods("GET")
+	router.HandleFunc("/company/location={id}", getCompanyByLocation).Methods("GET")
+	router.HandleFunc("/companies/location/{id}", getLocation).Methods("GET")
+	router.HandleFunc("/company/location", createLocation).Methods("POST")
+	router.HandleFunc("/company/location/priorincident", createPriorIncident).Methods("POST")
+	router.HandleFunc("/companies/location/priorIncident/{id}", getPriorIncident).Methods("GET")
+	router.HandleFunc("/companies/{id}", deleteCompany).Methods("DELETE")
+	log.Fatal(http.ListenAndServe(":"+port, router))
+}
+
+func createCompany(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Entered createCompany Handler")
+	var result map[string]interface{}
+	json.NewDecoder(r.Body).Decode(&result)
+	name := fmt.Sprintf("%v", result["name"])
+	company := crud.CreateCompany(name)
+	w.WriteHeader(http.StatusCreated)
+	fmt.Println("Successfully created Company: ", company.Name)
+}
+
+func createLocation(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Entered createLocation Handler")
+	var result map[string]interface{}
+	json.NewDecoder(r.Body).Decode(&result)
+	fmt.Println(result)
+	street := fmt.Sprintf("%v", result["street"])
+	streetNumber := fmt.Sprintf("%v", result["street_number"])
+	city := fmt.Sprintf("%v", result["city"])
+	state := fmt.Sprintf("%v", result["state"])
+	zipCode := fmt.Sprintf("%v", result["zip_code"])
+	storeNumber := fmt.Sprintf("%v", result["store_number"])
+	companyID := fmt.Sprintf("%v", result["company_id"])
+	crud.CreateLocation(streetNumber, street, city, state, zipCode, storeNumber, companyID)
+	w.WriteHeader(http.StatusCreated)
+	fmt.Println("Successfully created Location!")
+}
+
+func createPriorIncident(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Entered createPriorIncident Handler")
+	var result map[string]interface{}
+	json.NewDecoder(r.Body).Decode(&result)
+	date := fmt.Sprintf("%v", result["date"])
+	fallType := fmt.Sprintf("%v", result["fall_type"])
+	attorneyName := fmt.Sprintf("%v", result["attorney_name"])
+	locationID := fmt.Sprintf("%v", result["location_id"])
+	crud.CreatePriorIncident(date, fallType, attorneyName, locationID)
+	w.WriteHeader(http.StatusCreated)
+	fmt.Println("Successfully created Prior Incident!")
+}
+
+func createReport(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Entered createReport Handler")
+	var result map[string]interface{}
+	json.NewDecoder(r.Body).Decode(&result)
+	author := fmt.Sprintf("%v", result["author"])
+	id := fmt.Sprintf("%v", result["id"])
+	fmt.Println(id)
+	issue := fmt.Sprintf("%v", result["issue"])
+	reportType := fmt.Sprintf("%v", result["report_type"])
+	crud.CreateReport(author, issue, id, reportType)
+	w.WriteHeader(http.StatusCreated)
+	fmt.Println("Successfully created Report!")
+}
+
+func listCompanies(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Entered listcompanies Handler")
+	companies := crud.ListCompanies()
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(companies)
+}
+
+func getCompany(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Entered getCompany Handler")
+	companyID := r.URL.Path[len("companies/")+1:]
+	fmt.Println(companyID)
+
+	company := crud.GetCompany(companyID)
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(company)
+}
+
+func getCompanyByLocation(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Entered getCompanyByLocation Handler")
+	locationID := r.URL.Path[len("company/location=")+1:]
+
+	company := crud.GetCompanyByLocation(locationID)
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(company)
+}
+
+func getLocation(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Entered getLocation Handler")
+	fmt.Println(r.Body)
+	locationID := r.URL.Path[len("companies/location/")+1:]
+
+	location := crud.GetLocation(locationID)
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(location)
+}
+
+func getPriorIncident(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Entered getPriorIncident Handler")
+	priorIncidentID := r.URL.Path[len("companies/location/priorIncident/")+1:]
+	priorIncident := crud.GetPriorIncident(priorIncidentID)
+	w.WriteHeader(http.StatusOK)
+	fmt.Println(priorIncident)
+	json.NewEncoder(w).Encode(priorIncident)
+}
+
+func deleteCompany(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Entered deleteCompany handler")
+	companyID := r.URL.Path[1:]
+
+	crud.DeleteCompany(companyID)
+
+	w.WriteHeader(http.StatusOK)
+	fmt.Println("Successfully deleted Company")
+}
+
+func deleteLocation(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Entered deleteLocation handler")
+	locationID := r.URL.Path[1:]
+
+	crud.DeleteLocation(locationID)
+
+	w.WriteHeader(http.StatusOK)
+	fmt.Println("Successfully deleted Location")
+}
+
+func deletePriorIncident(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Entered deletePriorIncident handler")
+	priorIncidentID := r.URL.Path[1:]
+
+	crud.DeletePriorIncident(priorIncidentID)
+
+	w.WriteHeader(http.StatusOK)
+	fmt.Println("Successfully deleted Prior Incident")
+}
+
+func cors(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+
+		// Set headers
+		w.Header().Set("Access-Control-Allow-Headers:", "*")
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "*")
+
+		if r.Method == "OPTIONS" {
+			w.WriteHeader(http.StatusOK)
+			return
+		}
+
+		fmt.Println("ok")
+
+		// Next
+		next.ServeHTTP(w, r)
+		return
+	})
+}
