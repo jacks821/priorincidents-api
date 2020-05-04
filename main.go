@@ -7,9 +7,9 @@ import (
 	"net/http"
 	"os"
 
-	crud "./database/crud"
-	migrations "./migrations"
 	"github.com/gorilla/mux"
+	crud "github.com/jacks821/priorincidents-api/database/crud"
+	migrations "github.com/jacks821/priorincidents-api/migrations"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 

@@ -1,11 +1,12 @@
 package database
 
 import (
-	models "../models"
 	"fmt"
-	"github.com/jinzhu/gorm"
-	"github.com/satori/go.uuid"
 	"os"
+
+	models "github.com/jacks821/priorincidents-api/models"
+	"github.com/jinzhu/gorm"
+	uuid "github.com/satori/go.uuid"
 )
 
 //CreateLocation takes the arguments to make a Location and writes it to the database.

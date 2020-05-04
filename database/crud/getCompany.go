@@ -1,10 +1,11 @@
 package database
 
 import (
-	models "../models"
 	"fmt"
-	"github.com/jinzhu/gorm"
 	"os"
+
+	models "github.com/jacks821/priorincidents-api/models"
+	"github.com/jinzhu/gorm"
 )
 
 //GetCompany finds a Company by its ID in the database.

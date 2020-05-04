@@ -1,11 +1,12 @@
 package database
 
 import (
-	models "../models"
 	"fmt"
-	"github.com/jinzhu/gorm"
-	"github.com/satori/go.uuid"
 	"os"
+
+	models "github.com/jacks821/priorincidents-api/models"
+	"github.com/jinzhu/gorm"
+	uuid "github.com/satori/go.uuid"
 )
 
 //GetCompanyByLocation finds a Company by the ID of one of its Locations in the database.

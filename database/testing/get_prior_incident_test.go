@@ -10,7 +10,7 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 
-	crud "../crud"
+	crud "github.com/jacks821/priorincidents-api/crud"
 )
 
 func TestGetPriorIncident(t *testing.T) {

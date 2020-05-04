@@ -1,10 +1,11 @@
 package database
 
 import (
+	"time"
+
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres" //Needed for database
-	"github.com/satori/go.uuid"
-	"time"
+	uuid "github.com/satori/go.uuid"
 )
 
 //CommonModelFields are the fields which will exist on all models in the database.

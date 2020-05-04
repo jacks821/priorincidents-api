@@ -9,7 +9,7 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 
-	crud "../crud"
+	crud "github.com/jacks821/priorincidents-api/crud"
 )
 
 func TestDeleteLocation(t *testing.T) {

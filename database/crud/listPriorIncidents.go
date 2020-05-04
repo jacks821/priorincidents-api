@@ -1,10 +1,11 @@
 package database
 
 import (
-	models "../models"
 	"fmt"
-	"github.com/jinzhu/gorm"
 	"os"
+
+	models "github.com/jacks821/priorincidents-api/models"
+	"github.com/jinzhu/gorm"
 )
 
 //ListPriorIncidents returns a list of all PriorIncidents by LocationID.

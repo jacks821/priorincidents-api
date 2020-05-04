@@ -1,12 +1,13 @@
 package migrations
 
 import (
-	models "../database/models"
 	"fmt"
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/postgres" //Required for database to work
 	"log"
 	"os"
+
+	models "github.com/jacks821/priorincidents-api/database/models"
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/postgres" //Required for database to work
 )
 
 //RunMigrations runs the database Migrations and prints success to console.

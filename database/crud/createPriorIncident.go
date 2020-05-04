@@ -3,11 +3,12 @@ package database
 import (
 	"time"
 
-	models "../models"
 	"fmt"
-	"github.com/jinzhu/gorm"
-	"github.com/satori/go.uuid"
 	"os"
+
+	models "github.com/jacks821/priorincidents-api/models"
+	"github.com/jinzhu/gorm"
+	uuid "github.com/satori/go.uuid"
 )
 
 //CreatePriorIncident takes the arguments to make a PriorIncident and writes it to the database.
