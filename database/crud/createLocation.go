@@ -1,7 +1,6 @@
 package database
 
 import (
-	"fmt"
 	"os"
 
 	models "github.com/jacks821/priorincidents-api/database/models"

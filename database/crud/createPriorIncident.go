@@ -3,7 +3,6 @@ package database
 import (
 	"time"
 
-	"fmt"
 	"os"
 
 	models "github.com/jacks821/priorincidents-api/database/models"
