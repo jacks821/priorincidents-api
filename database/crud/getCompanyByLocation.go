@@ -12,8 +12,8 @@ import (
 //GetCompanyByLocation finds a Company by the ID of one of its Locations in the database.
 //Returns a Company.
 func GetCompanyByLocation(locationID string) (models.Company, error) {
-	s := fmt.Sprintf("dbname=%s user=%s password=%s port=5432", "priorincidents", os.Getenv("DATABASE_USER"), os.Getenv("DATABASE_PASSWORD"))
-	db, err := gorm.Open("postgres", s)
+	//s := fmt.Sprintf("dbname=%s user=%s password=%s port=5432", "priorincidents", os.Getenv("DATABASE_USER"), os.Getenv("DATABASE_PASSWORD"))
+	db, err := gorm.Open("postgres", os.Getenv("DATABASE_URL"))
 	var company models.Company
 	if err != nil {
 		return company, err

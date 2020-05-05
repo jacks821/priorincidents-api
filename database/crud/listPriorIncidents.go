@@ -11,8 +11,8 @@ import (
 //ListPriorIncidents returns a list of all PriorIncidents by LocationID.
 //Returns an array of PriorIncidents and an error.
 func ListPriorIncidents(locationID string) ([]models.PriorIncident, error) {
-	s := fmt.Sprintf("dbname=%s user=%s password=%s port=5432", "priorincidents", os.Getenv("DATABASE_USER"), os.Getenv("DATABASE_PASSWORD"))
-	db, err := gorm.Open("postgres", s)
+	//s := fmt.Sprintf("dbname=%s user=%s password=%s port=5432", "priorincidents", os.Getenv("DATABASE_USER"), os.Getenv("DATABASE_PASSWORD"))
+	db, err := gorm.Open("postgres", os.Getenv("DATABASE_URL"))
 	var priorIncidents []models.PriorIncident
 	if err != nil {
 		return priorIncidents, err

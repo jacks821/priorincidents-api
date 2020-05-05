@@ -12,8 +12,7 @@ import (
 //CreateReport takes the arguments to make a Report and writes it to the database.
 //Returns a Report and an error
 func CreateReport(author string, issue string, id string, reportType string) (models.Report, error) {
-	s := fmt.Sprintf("dbname=%s user=%s password=%s port=5432", "priorincidents", os.Getenv("DATABASE_USER"), os.Getenv("DATABASE_PASSWORD"))
-	db, err := gorm.Open("postgres", s)
+	db, err := gorm.Open("postgres", os.Getenv("DATABASE_URL"))
 	var report models.Report
 	if err != nil {
 		return report, err

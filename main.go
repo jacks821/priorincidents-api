@@ -15,10 +15,10 @@ import (
 
 func main() {
 	migrations.RunMigrations()
-	port := os.Getenv("API_PORT")
+	port := os.Getenv("PORT")
 
 	if port == "" {
-		log.Fatal("$API_PORT must be set")
+		log.Fatal("$PORT must be set")
 	}
 	router := mux.NewRouter().StrictSlash(true)
 

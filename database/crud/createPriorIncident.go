@@ -14,8 +14,7 @@ import (
 //CreatePriorIncident takes the arguments to make a PriorIncident and writes it to the database.
 //Returns a PriorIncident and an error
 func CreatePriorIncident(date string, fallType string, attorneyName string, locationID string) (models.PriorIncident, error) {
-	s := fmt.Sprintf("dbname=%s user=%s password=%s port=5432", "priorincidents", os.Getenv("DATABASE_USER"), os.Getenv("DATABASE_PASSWORD"))
-	db, err := gorm.Open("postgres", s)
+	db, err := gorm.Open("postgres", os.Getenv("DATABASE_URL"))
 
 	priorIncident := models.PriorIncident{FallType: fallType, AttorneyName: attorneyName}
 

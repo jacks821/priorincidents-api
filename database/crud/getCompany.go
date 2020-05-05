@@ -11,8 +11,8 @@ import (
 //GetCompany finds a Company by its ID in the database.
 //Returns a Company and an error
 func GetCompany(companyID string) (models.Company, error) {
-	s := fmt.Sprintf("dbname=%s user=%s password=%s port=5432", "priorincidents", os.Getenv("DATABASE_USER"), os.Getenv("DATABASE_PASSWORD"))
-	db, err := gorm.Open("postgres", s)
+	//s := fmt.Sprintf("dbname=%s user=%s password=%s port=5432", "priorincidents", os.Getenv("DATABASE_USER"), os.Getenv("DATABASE_PASSWORD"))
+	db, err := gorm.Open("postgres", os.Getenv("DATABASE_URL"))
 	var company models.Company
 	if err != nil {
 		return company, err
