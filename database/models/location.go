@@ -14,6 +14,6 @@ type Location struct {
 	ZipCode        string          `gorm:"not null" json:"zip_code"`
 	StoreNumber    string          `gorm:"not null" json:"store_number"`
 	PriorIncidents []PriorIncident `json:"prior_incidents"`
-	CompanyID      uuid.UUID       `gorm:"type:uuid;" json:"id"`
+	CompanyID      uuid.UUID       `gorm:"type:uuid;" json:"company_id"`
 	Reports        []Report        `json:"reports"`
 }

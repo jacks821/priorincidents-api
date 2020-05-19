@@ -97,7 +97,6 @@ func createReport(w http.ResponseWriter, r *http.Request) {
 	json.NewDecoder(r.Body).Decode(&result)
 	author := fmt.Sprintf("%v", result["author"])
 	id := fmt.Sprintf("%v", result["id"])
-	fmt.Println(id)
 	issue := fmt.Sprintf("%v", result["issue"])
 	reportType := fmt.Sprintf("%v", result["report_type"])
 	_, err := crud.CreateReport(author, issue, id, reportType)
@@ -125,7 +124,6 @@ func listCompanies(w http.ResponseWriter, r *http.Request) {
 func getCompany(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Entered getCompany Handler")
 	companyID := r.URL.Path[len("companies/")+1:]
-	fmt.Println(companyID)
 
 	company, err := crud.GetCompany(companyID)
 	if err != nil {
@@ -153,7 +151,6 @@ func getCompanyByLocation(w http.ResponseWriter, r *http.Request) {
 
 func getLocation(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Entered getLocation Handler")
-	fmt.Println(r.Body)
 	locationID := r.URL.Path[len("companies/location/")+1:]
 
 	location, err := crud.GetLocation(locationID)
@@ -176,7 +173,6 @@ func getPriorIncident(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.WriteHeader(http.StatusOK)
-	fmt.Println(priorIncident)
 	json.NewEncoder(w).Encode(priorIncident)
 }
 
@@ -229,7 +225,7 @@ func cors(next http.Handler) http.Handler {
 
 		// Set headers
 		w.Header().Set("Access-Control-Allow-Headers:", "*")
-		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Origin", "http://prior-incidents.herokuapp.com")
 		w.Header().Set("Access-Control-Allow-Methods", "*")
 
 		if r.Method == "OPTIONS" {
