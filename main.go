@@ -39,7 +39,7 @@ func main() {
 }
 
 func createCompany(w http.ResponseWriter, r *http.Request) {
-	if (*req).Method == "OPTIONS" {
+	if (*r).Method == "OPTIONS" {
 		return
 	}
 	fmt.Println("Entered createCompany Handler")
