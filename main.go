@@ -227,7 +227,7 @@ func deletePriorIncident(w http.ResponseWriter, r *http.Request) {
 }
 
 func cors(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	return http.HandlerFunc(func(w *http.ResponseWriter, r *http.Request) {
 
 		// Set headers
 		(*w).Header().Set("Access-Control-Allow-Headers:", "*")
