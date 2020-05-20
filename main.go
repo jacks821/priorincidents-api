@@ -22,8 +22,6 @@ func main() {
 	}
 	router := mux.NewRouter().StrictSlash(true)
 
-	router.Use(cors)
-
 	router.HandleFunc("/companies", listCompanies).Methods("GET")
 	router.HandleFunc("/company", createCompany).Methods("POST")
 	router.HandleFunc("/company", createCompany).Methods("OPTIONS")
@@ -39,11 +37,7 @@ func main() {
 }
 
 func createCompany(w http.ResponseWriter, r *http.Request) {
-	if (*r).Method == "OPTIONS" {
-		w.Header().Set("Access-Control-Allow-Headers:", "*")
-		w.Header().Set("Access-Control-Allow-Origin", "http://prior-incidents.herokuapp.com")
-		w.Header().Set("Access-Control-Allow-Methods", "*")
-	}
+	setupResponse(&w, r)
 	fmt.Println("Entered createCompany Handler")
 	var result map[string]interface{}
 	json.NewDecoder(r.Body).Decode(&result)
@@ -226,23 +220,8 @@ func deletePriorIncident(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Successfully deleted Prior Incident")
 }
 
-func cors(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w *http.ResponseWriter, r *http.Request) {
-
-		// Set headers
-		(*w).Header().Set("Access-Control-Allow-Headers:", "*")
-		(*w).Header().Set("Access-Control-Allow-Origin", "http://prior-incidents.herokuapp.com")
-		(*w).Header().Set("Access-Control-Allow-Methods", "*")
-
-		if r.Method == "OPTIONS" {
-			(*w).WriteHeader(http.StatusOK)
-			return
-		}
-
-		fmt.Println("ok")
-
-		// Next
-		next.ServeHTTP(w, r)
-		return
-	})
+func setupResponse(w *http.ResponseWriter, req *http.Request) {
+	(*w).Header().Set("Access-Control-Allow-Origin", "*")
+	(*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+	(*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 }
