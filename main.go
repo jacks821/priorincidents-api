@@ -229,14 +229,13 @@ func deletePriorIncident(w http.ResponseWriter, r *http.Request) {
 func cors(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
-		fmt.Println("HERE")
 		// Set headers
-		w.Header().Set("Access-Control-Allow-Headers:", "*")
-		w.Header().Set("Access-Control-Allow-Origin", "http://prior-incidents.herokuapp.com")
-		w.Header().Set("Access-Control-Allow-Methods", "*")
+		(*w).Header().Set("Access-Control-Allow-Headers:", "*")
+		(*w).Header().Set("Access-Control-Allow-Origin", "http://prior-incidents.herokuapp.com")
+		(*w).Header().Set("Access-Control-Allow-Methods", "*")
 
 		if r.Method == "OPTIONS" {
-			w.WriteHeader(http.StatusOK)
+			(*w).WriteHeader(http.StatusOK)
 			return
 		}
 
