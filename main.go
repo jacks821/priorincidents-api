@@ -43,7 +43,6 @@ func createCompany(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Headers:", "*")
 		w.Header().Set("Access-Control-Allow-Origin", "http://prior-incidents.herokuapp.com")
 		w.Header().Set("Access-Control-Allow-Methods", "*")
-		return
 	}
 	fmt.Println("Entered createCompany Handler")
 	var result map[string]interface{}
