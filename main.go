@@ -26,6 +26,7 @@ func main() {
 
 	router.HandleFunc("/companies", listCompanies).Methods("GET")
 	router.HandleFunc("/company", createCompany).Methods("POST")
+	router.HandleFunc("/company", createCompany).Methods("OPTIONS")
 	router.HandleFunc("/report", createReport).Methods("POST")
 	router.HandleFunc("/companies/{id}", getCompany).Methods("GET")
 	router.HandleFunc("/company/location={id}", getCompanyByLocation).Methods("GET")
@@ -38,6 +39,9 @@ func main() {
 }
 
 func createCompany(w http.ResponseWriter, r *http.Request) {
+	if (*r).Method == "OPTIONS" {
+		return
+	}
 	fmt.Println("Entered createCompany Handler")
 	var result map[string]interface{}
 	json.NewDecoder(r.Body).Decode(&result)
